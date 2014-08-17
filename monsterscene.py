@@ -99,7 +99,7 @@ class MonsterScene(Scene):
 			self.sprite_group.clear(screen, self.clean_background)
  
 	def update(self):
-		if (self.radar_swipe.on_edge())
+		if (self.radar_swipe.on_edge()):
 			self.monster_counter.update()
 			nearby_devices = bluetooth.discover_devices()
 			self.number_of_monsters = len(nearby_devices)
