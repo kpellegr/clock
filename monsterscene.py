@@ -41,20 +41,17 @@ class MonsterCounter(pygame.sprite.DirtySprite):
 		self.update()
 		self.rect = self.image.get_rect()
 
-
 	def update(self):
 		if not(self.dirty):
 			return
 
 		self.image = self.get_font(144).render(str(self.number_of_monsters), 1, self.color)
 
-	def handle_event(self, event):
-		if self.trigger == event.type:
-			nearby_devices = bluetooth.discover_devices()
-			self.number_of_monsters = len(nearby_devices)
-			#self.number_of_monsters = random.randint(0,5)
-			self.dirty = 1
-			self.update()
+	def scan_env(self):
+		nearby_devices = bluetooth.discover_devices()
+		self.number_of_monsters = len(nearby_devices)
+		self.dirty = 1
+		self.update()
 
 	def get_font(self, size):
 		return pygame.font.Font("fonts/Roboto-Thin.ttf", size)
@@ -81,7 +78,7 @@ class MonsterScene(Scene):
 		self.sprite_group = pygame.sprite.LayeredDirty()
 		self.sprite_group.add(self.background, layer=0)
 		self.sprite_group.add(self.radar_swipe, layer = 1)
-		#self.sprite_group.add(self.monster_counter, layer = 1)
+		self.sprite_group.add(self.monster_counter, layer = 1)
 
 		label = self.monster_counter.get_font(28).render("monsters", 1, (250, 250, 250), (0,0,0))
 		self.image.blit(label, (15, 170)) 
@@ -100,9 +97,7 @@ class MonsterScene(Scene):
  
 	def update(self):
 		if (self.radar_swipe.on_edge()):
-			self.monster_counter.update()
-			nearby_devices = bluetooth.discover_devices()
-			self.number_of_monsters = len(nearby_devices)
+			self.monster_counter.scan_env()
 
 		self.sprite_group.update()
 		pygame.display.update(self.dirty_rects)
