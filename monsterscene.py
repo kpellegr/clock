@@ -1,4 +1,5 @@
 import pygame, os, random
+import bluetooth
 from pygame.locals import *
 from userevents import *
 from backgrounds import ImageBackground
@@ -48,7 +49,9 @@ class MonsterCounter(pygame.sprite.DirtySprite):
 
 	def handle_event(self, event):
 		if self.trigger == event.type:
-			self.number_of_monsters = random.randint(0,5)
+			nearby_devices = bluetooth.discover_devices()
+			self.number_of_monsters = len(nearby_devices.len)
+			#self.number_of_monsters = random.randint(0,5)
 			self.dirty = 1
 			self.update()
 
