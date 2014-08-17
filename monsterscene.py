@@ -24,9 +24,12 @@ class RadarSwipe(pygame.sprite.DirtySprite):
 
 	def update(self):
 		self.dirty = 1
-		if (self.rect.x > (319 - self.rect.width)) or (self.rect.x < 0):
+		if self.on_edge():
 			self.step = -self.step
 		self.rect.move_ip(self.step, 0)
+
+	def on_edge(self):
+		return (self.rect.x > (319 - self.rect.width)) or (self.rect.x < 0)
 
 class MonsterCounter(pygame.sprite.DirtySprite):
 	def __init__(self, __color):
@@ -38,8 +41,6 @@ class MonsterCounter(pygame.sprite.DirtySprite):
 		self.update()
 		self.rect = self.image.get_rect()
 
-		self.trigger = UserEvent.create_event()
-		pygame.time.set_timer(self.trigger, 10000)
 
 	def update(self):
 		if not(self.dirty):
@@ -50,7 +51,7 @@ class MonsterCounter(pygame.sprite.DirtySprite):
 	def handle_event(self, event):
 		if self.trigger == event.type:
 			nearby_devices = bluetooth.discover_devices()
-			self.number_of_monsters = len(nearby_devices.len)
+			self.number_of_monsters = len(nearby_devices)
 			#self.number_of_monsters = random.randint(0,5)
 			self.dirty = 1
 			self.update()
@@ -80,7 +81,7 @@ class MonsterScene(Scene):
 		self.sprite_group = pygame.sprite.LayeredDirty()
 		self.sprite_group.add(self.background, layer=0)
 		self.sprite_group.add(self.radar_swipe, layer = 1)
-		self.sprite_group.add(self.monster_counter, layer = 1)
+		#self.sprite_group.add(self.monster_counter, layer = 1)
 
 		label = self.monster_counter.get_font(28).render("monsters", 1, (250, 250, 250), (0,0,0))
 		self.image.blit(label, (15, 170)) 
@@ -98,6 +99,11 @@ class MonsterScene(Scene):
 			self.sprite_group.clear(screen, self.clean_background)
  
 	def update(self):
+		if (self.radar_swipe.on_edge())
+			self.monster_counter.update()
+			nearby_devices = bluetooth.discover_devices()
+			self.number_of_monsters = len(nearby_devices)
+
 		self.sprite_group.update()
 		pygame.display.update(self.dirty_rects)
 
