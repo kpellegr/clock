@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{64344cdd-0046-4ed7-9dfb-253305a4e77c}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>clock.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
+    <InterpreterVersion>2.7</InterpreterVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="backgrounds.py" />
+    <Compile Include="clock.py" />
+    <Compile Include="clockscene.py" />
+    <Compile Include="controlcenter.py" />
+    <Compile Include="monsterscene.py" />
+    <Compile Include="music.py" />
+    <Compile Include="timesprites.py" />
+    <Compile Include="userevents.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="backgrounds\.picasa.ini" />
+    <Content Include="backgrounds\.picasaoriginals\.picasa.ini" />
+    <Content Include="backgrounds\.picasaoriginals\gp_dawn.png" />
+    <Content Include="backgrounds\.picasaoriginals\gp_day.png" />
+    <Content Include="backgrounds\.picasaoriginals\gp_dusk.png" />
+    <Content Include="backgrounds\.picasaoriginals\gp_night.png" />
+    <Content Include="backgrounds\gp_dawn.png.jpg" />
+    <Content Include="backgrounds\gp_day.png.jpg" />
+    <Content Include="backgrounds\gp_dusk.png.jpg" />
+    <Content Include="backgrounds\gp_night.png.jpg" />
+    <Content Include="icons\017.png" />
+    <Content Include="icons\074.png" />
+    <Content Include="icons\076.png" />
+    <Content Include="icons\108.png" />
+    <Content Include="icons\113.png" />
+    <Content Include="icons\115.png" />
+    <Content Include="icons\120.png" />
+    <Content Include="icons\122.png" />
+    <Content Include="icons\126.png" />
+    <Content Include="icons\261.png" />
+    <Content Include="icons\318.png" />
+    <Content Include="icons\325.png" />
+    <Content Include="icons\371.png" />
+    <Content Include="images\.picasa.ini" />
+    <Content Include="images\.picasaoriginals\.picasa.ini" />
+    <Content Include="images\monster.png" />
+    <Content Include="images\radar_sweep.png" />
+    <Content Include="slideshow\.picasa.ini" />
+    <Content Include="slideshow\.picasaoriginals\.picasa.ini" />
+    <Content Include="slideshow\.picasaoriginals\2014-06-23 10.07.40.jpg" />
+    <Content Include="slideshow\.picasaoriginals\2014-06-27 14.05.35.jpg" />
+    <Content Include="slideshow\1-2014-07-17 15.19.14.jpg" />
+    <Content Include="slideshow\1-2014-07-17 17.04.25.jpg" />
+    <Content Include="slideshow\1-2014-08-06 12.49.35.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="backgrounds" />
+    <Folder Include="backgrounds\.picasaoriginals" />
+    <Folder Include="icons" />
+    <Folder Include="images" />
+    <Folder Include="images\.picasaoriginals" />
+    <Folder Include="slideshow" />
+    <Folder Include="slideshow\.picasaoriginals" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>

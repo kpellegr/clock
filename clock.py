@@ -1,4 +1,4 @@
-import pygame, sys, os, time
+import pygame, sys, os, time, platform
 from pygame.locals import *
 from userevents import *
 from clockscene import ClockScene
@@ -17,7 +17,7 @@ DISPLAY_HEIGHT = 240
 
 
 def on_raspberry():
-	return os.uname()[4].startswith("arm")
+	return platform.uname()[4].startswith("arm")
 
 def set_transparant_cursor():
 	transparant_cursor = (
@@ -58,7 +58,6 @@ class PiTFT(object):
 # =========================
 
 pygame.init()
-
 FPS = 10 # frames per second setting
 SLEEP_TIMEOUT = 300 # 5 minutes
 fpsClock = pygame.time.Clock()
@@ -222,4 +221,4 @@ while running:
 # End of game loop (running = False)
 tft.set_backlight(True)
 pygame.quit()
-sys.exit()
+
