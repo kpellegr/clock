@@ -60,6 +60,7 @@ class PiTFT(object):
 pygame.init()
 FPS = 10 # frames per second setting
 SLEEP_TIMEOUT = 300 # 5 minutes
+SYNC_TIMEOUT = 3600*24 # 24 hours
 fpsClock = pygame.time.Clock()
 
 screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT), 0, 32)
@@ -115,6 +116,10 @@ current_scene = clock_scene
 SLEEP_TRIGGER = UserEvent.create_event()
 pygame.time.set_timer(SLEEP_TRIGGER, SLEEP_TIMEOUT * 1000)
 
+SYNC_TRIGGER = UserEvent.create_event()
+pygame.time.set_timer(SYNC_TRIGGER, SYNC_TIMEOUT * 1000)
+
+
 while running:
 	for event in pygame.event.get():
 		event_handled = False
@@ -124,6 +129,12 @@ while running:
 		if event.type == SLEEP_TRIGGER:
 			#print "Turning off backlight"
 			tft.set_backlight(False)
+			event_handled = True
+		if event.type == SYNC_TRIGGER:
+			print "Resyncing all files from Dropbox"
+			music_player.load_file_list()
+			slideshow_background.load_file_list()
+			#efimerides_background.load_file_list()
 			event_handled = True
 		if (event.type == MOUSEBUTTONUP):
 			pygame.time.set_timer(SLEEP_TRIGGER, SLEEP_TIMEOUT * 1000)

@@ -1,6 +1,7 @@
 import pygame, sys, os
 from datetime import datetime, date, time, timedelta
 from pygame.locals import *
+from collections import deque
 
 class Background(pygame.sprite.DirtySprite):
 	def __init__(self, __width = 320, __height = 240):
@@ -71,8 +72,11 @@ class EfimeridesBackground(Background):
 			self.current_label = label
 			self.dirty = 1
 
+		def load_file_list(self):
+			pass # files are always loaded on the spot
+
 class SlideshowBackground(Background):
-	file_list = []
+	file_list = deque()
 
 	def __init__(self, __hourglass = 10, __width = 320, __height = 240):
 		Background.__init__(self, __width, __height)
@@ -88,9 +92,14 @@ class SlideshowBackground(Background):
 			return
 
 		if datetime.now() > self.mark:
-			filename = self.file_list.pop()
-			self.image = pygame.image.load(filename)
-			self.rect = self.image.get_rect()
+			filename = self.file_list.popleft()
+			try:
+				self.image = pygame.image.load(filename)
+				self.rect = self.image.get_rect()
+				self.file_list.append(filename) #put the file back at the end of the list
+			except:
+				pass # ignore exception, but we're not putting the file back in the list
+
 			self.mark = datetime.now() + timedelta(seconds=self.hourglass)
 			self.dirty = 1
 
@@ -98,9 +107,10 @@ class SlideshowBackground(Background):
 			self.load_file_list()
 
 	def load_file_list(self):
-		self.file_list = []
+		self.file_list.clear()
 		for filename in os.listdir ("slideshow"):
 			if filename.startswith("."):
 				continue
 
+			print "Found background %s" % (filename)
 			self.file_list.append(os.path.join("slideshow", filename))
