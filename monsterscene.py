@@ -4,6 +4,7 @@ from pygame.locals import *
 from userevents import *
 from backgrounds import ImageBackground
 from clockscene import Scene
+import threading
 
 class RadarSwipe(pygame.sprite.DirtySprite):
 	def __init__(self, __color, __width, __step):
@@ -35,11 +36,17 @@ class MonsterCounter(pygame.sprite.DirtySprite):
 	def __init__(self, __color):
 		pygame.sprite.DirtySprite.__init__(self)
 
+		self.scan_duration = 4 #seconds
+
 		self.number_of_monsters = 0
 		self.color = __color
 		self.dirty = 1
 		self.update()
 		self.rect = self.image.get_rect()
+
+		#scan for monsters every 10 seconds
+		self.trigger = UserEvent.create_event()
+		pygame.time.set_timer(self.trigger, (self.scan_duration + 1) * 1000)
 
 	def update(self):
 		if not(self.dirty):
@@ -48,8 +55,19 @@ class MonsterCounter(pygame.sprite.DirtySprite):
 		self.image = self.get_font(144).render(str(self.number_of_monsters), 1, self.color)
 
 	def scan_env(self):
-		nearby_devices = bluetooth.discover_devices()
+			print("Starting a new thread")
+			t = threading.Thread(target=self.scan_for_monsters, args=())
+			t.start()
+
+
+	def handle_event(self, event):
+		if self.trigger == event.type:
+			self.scan_env()
+
+	def scan_for_monsters(self):
+		nearby_devices = bluetooth.discover_devices(self.scan_duration - 1)
 		self.number_of_monsters = len(nearby_devices)
+		print "Thread found {} monsters".format(self.number_of_monsters)
 		self.dirty = 1
 		self.update()
 
@@ -96,8 +114,8 @@ class MonsterScene(Scene):
 			self.sprite_group.clear(screen, self.clean_background)
  
 	def update(self):
-		if (self.radar_swipe.on_edge()):
-			self.monster_counter.scan_env()
+		#if (self.radar_swipe.on_edge()):
+		#	self.monster_counter.scan_env()
 
 		self.sprite_group.update()
 		pygame.display.update(self.dirty_rects)
