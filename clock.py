@@ -37,7 +37,13 @@ class PiTFT(object):
 	backlight_path = "/sys/class/gpio/gpio508/value"
 
 	def __init__(self):
-		self.set_backlight(True)
+		# Prep GPIO first
+        if not(on_raspberry()):
+            return
+
+        os.system("sudo sh -c 'echo 508 > /sys/class/gpio/export'")
+        os.system("sudo sh -c 'echo \'out\' > /sys/class/gpio/gpio508/direction'")
+        self.set_backlight(True)
 
 	def set_backlight(self, __status):
 		self.backlight_status = __status
