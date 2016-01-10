@@ -34,7 +34,7 @@ def set_transparant_cursor():
 
 class PiTFT(object):
 	backlight_status = True
-	backlight_path = "/sys/class/gpio/gpio252/value"
+	backlight_path = "/sys/class/gpio/gpio508/value"
 
 	def __init__(self):
 		self.set_backlight(True)
@@ -59,7 +59,7 @@ class PiTFT(object):
 
 pygame.init()
 FPS = 10 # frames per second setting
-SLEEP_TIMEOUT = 300 # 5 minutes
+SLEEP_TIMEOUT = 600 # 10 minutes
 SYNC_TIMEOUT = 3600*24 # 24 hours
 fpsClock = pygame.time.Clock()
 
